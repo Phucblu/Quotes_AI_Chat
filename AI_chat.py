@@ -5,7 +5,7 @@ from gtts import gTTS
 import io
 
 # ========== CONFIG ==========
-st.set_page_config(page_title="Chat Clone", page_icon="💬", layout="centered")
+st.set_page_config(page_title="EchoQuotes", page_icon="💬", layout="centered")
 
 # ========== CSS (chỉnh font-size ở đây) ==========
 st.markdown("""
@@ -28,7 +28,7 @@ body {
 .bubble .content { max-width:78%; padding:12px 14px; border-radius:14px; line-height:1.5; font-size:16px; }
 
 /* --- TÙY CHỈNH KÍCH THƯỚC CHỮ CHO QUOTE --- */
-.quote-text { font-size:22px; font-weight:600; line-height:1.4; } /* <-- tăng/decrease ở đây */
+.quote-text { font-size:32px; font-weight:600; line-height:1.4; } /* <-- tăng/decrease ở đây */
 
 /* User bubble */
 .bubble.user { justify-content:flex-end; }
@@ -47,7 +47,7 @@ body {
 
 /* Typing dots (tăng kích thước dot nếu muốn) */
 .typing { display:inline-flex; gap:6px; align-items:center; }
-.dot { width:8px; height:8px; border-radius:50%; background:#eee; opacity:.8; animation:pulse 1.2s infinite ease-in-out; }
+.dot { width:10px; height:10px; border-radius:50%; background:#eee; opacity:.8; animation:pulse 1.2s infinite ease-in-out; }
 .dot:nth-child(2){ animation-delay:.2s; }
 .dot:nth-child(3){ animation-delay:.4s; }
 @keyframes pulse { 0%{ transform:translateY(0); opacity:.3; } 50%{ transform:translateY(-3px); opacity:.95; } 100%{ transform:translateY(0); opacity:.3; } }
@@ -63,7 +63,7 @@ st.markdown('<div class="chat-container">', unsafe_allow_html=True)
 st.markdown("""
     <div class="header">
         <span>💬</span>
-        <h1>Chat Clone</h1>
+        <h1>EchoQuotes</h1>
     </div>
 """, unsafe_allow_html=True)
 
@@ -193,4 +193,5 @@ if len(st.session_state.messages) >= 2:
             st.error("Không thể tạo audio: " + str(e))
 
 st.markdown('</div>', unsafe_allow_html=True)
+
 
