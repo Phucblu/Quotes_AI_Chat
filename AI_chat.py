@@ -90,19 +90,19 @@ for msg in st.session_state.messages:
 # ========== NÚT TỪ KHOÁ ==========
 col1, col2, col3 = st.columns(3)
 with col1:
-    btn_word = st.button("quotes word")
+    btn_word = st.button("Quotes Word")
 with col2:
-    btn_pic = st.button("quotes picture")
+    btn_pic = st.button("Quotes Picture")
 with col3:
-    btn_voice = st.button("quotes voice")
+    btn_voice = st.button("Quotes Voice")
 
 prompt = None
 if btn_word:
-    prompt = "quotes word"
+    prompt = "Quotes Word"
 elif btn_pic:
-    prompt = "quotes picture"
+    prompt = "Quotes Picture"
 elif btn_voice:
-    prompt = "quotes voice"
+    prompt = "Quotes Voice"
 
 # ========== XỬ LÝ KHI NHẤN NÚT ==========
 if prompt:
@@ -193,3 +193,4 @@ if len(st.session_state.messages) >= 2:
             st.error("Không thể tạo audio: " + str(e))
 
 st.markdown('</div>', unsafe_allow_html=True)
+
