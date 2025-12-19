@@ -4,6 +4,16 @@ import time
 from gtts import gTTS
 import io
 
+# ở đầu file, sau import streamlit as st
+def safe_rerun():
+    try:
+        st.experimental_rerun()
+    except AttributeError:
+        # Nếu streamlit trên môi trường deploy không có experimental_rerun,
+        # dừng script hiện tại (session_state đã thay đổi nên khi người dùng tương tác
+        # hoặc khi page tự reload nó sẽ hiển thị lịch sử)
+        st.stop()
+
 # ========== CONFIG ==========
 st.set_page_config(page_title="EchoQuotes", page_icon="💬", layout="centered")
 
@@ -108,7 +118,7 @@ elif btn_voice:
 if prompt:
     # Lưu và hiển thị tin nhắn user
     st.session_state.messages.append({"role": "user", "content": prompt})
-    st.experimental_rerun()  # rerun để lịch sử user hiển thị ngay
+    safe_rerun()  # rerun để lịch sử user hiển thị ngay
 
 # Nếu có tin nhắn mới (kiểm tra cuối danh sách)
 if st.session_state.messages and st.session_state.messages[-1]["role"] == "user":
@@ -145,14 +155,14 @@ if st.session_state.messages and st.session_state.messages[-1]["role"] == "user"
         # Thay placeholder bằng quote (lưu dưới dạng HTML quote để áp dụng font-size)
         placeholder.empty()
         st.session_state.messages.append({"role": "assistant", "content": quote, "is_quote_html": True})
-        st.experimental_rerun()
+        safe_rerun()
 
     elif "quotes picture" in last.lower():
         placeholder.empty()
         # ZenQuotes cung cấp endpoint ảnh; nếu không ổn, bạn có thể tạo ảnh riêng
         img_url = "https://zenquotes.io/api/image"
         st.session_state.messages.append({"role": "assistant", "content": f'<img src="{img_url}" alt="quote image" style="max-width:100%;">', "is_quote_html": False})
-        st.experimental_rerun()
+        safe_rerun()
 
     elif "quotes voice" in last.lower():
         res = requests.get("https://zenquotes.io/api/random")
@@ -165,7 +175,7 @@ if st.session_state.messages and st.session_state.messages[-1]["role"] == "user"
         # Hiển thị text quote
         placeholder.empty()
         st.session_state.messages.append({"role": "assistant", "content": quote, "is_quote_html": True})
-        st.experimental_rerun()
+        safe_rerun()
 
         # Tạo audio (gTTS) và phát (lưu ý: rerun đã xảy ra; nếu muốn phát ngay, bạn có thể thay flow)
         # (Phát audio ngay trong cùng lần chạy nếu không dùng st.experimental_rerun)
@@ -173,7 +183,7 @@ if st.session_state.messages and st.session_state.messages[-1]["role"] == "user"
         placeholder.empty()
         reply = f"Mình đã nhận: “{last}”. Đây là phản hồi mẫu."
         st.session_state.messages.append({"role": "assistant", "content": reply})
-        st.experimental_rerun()
+        safe_rerun()
 
 # ========== PHÁT AUDIO CHO quotes voice (nếu cần) ==========
 # Lưu ý: để phát audio ngay sau khi hiển thị quote, ta kiểm tra message assistant cuối có phải quote và user trước đó là quotes voice
@@ -193,5 +203,6 @@ if len(st.session_state.messages) >= 2:
             st.error("Không thể tạo audio: " + str(e))
 
 st.markdown('</div>', unsafe_allow_html=True)
+
 
 
