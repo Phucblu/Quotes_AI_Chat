@@ -1,1 +1,3 @@
-pip install gTTS, streamlit, requests
+gTTS
+streamlit
+requests
