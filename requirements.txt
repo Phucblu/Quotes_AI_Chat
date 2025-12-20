@@ -1,3 +1,5 @@
 gTTS
 streamlit
 requests
+pytesseract
+pillow
